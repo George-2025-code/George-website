@@ -1,6 +1,385 @@
-<html>
-<head><title>我的个人网站</title></head>
-<body>
-<h1>欢迎来到我的个人网站！</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏 - George Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#8B5CF6',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.18);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #4F46E5 0%, #8B5CF6 100%);
+                background-size: 200% 200%;
+                animation: gradientShift 15s ease infinite;
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, #4F46E5, #8B5CF6);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            .animate-float-delay {
+                animation: float 6s ease-in-out 2s infinite;
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.8s ease forwards;
+                opacity: 0;
+            }
+            .feature-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans text-white overflow-x-hidden">
+    <!-- 背景渐变与动画 -->
+    <div class="fixed inset-0 gradient-bg opacity-90 z-0"></div>
+    <div class="fixed inset-0 bg-[url('https://picsum.photos/id/3/1920/1080')] bg-cover bg-center opacity-10 z-0"></div>
+    
+    <!-- 装饰性动画元素 -->
+    <div class="fixed top-20 left-10 w-32 h-32 rounded-full bg-primary/20 blur-2xl animate-float z-0"></div>
+    <div class="fixed bottom-20 right-10 w-40 h-40 rounded-full bg-secondary/20 blur-3xl animate-float-delay z-0"></div>
+    <div class="fixed top-1/3 right-1/4 w-24 h-24 rounded-full bg-accent/20 blur-xl animate-float" style="animation-delay: 4s"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="glass fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center">
+                    <i class="fa fa-gamepad text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold">George Studio</span>
+            </div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#features" class="hover:text-accent transition-colors">功能特点</a>
+                <a href="#modes" class="hover:text-accent transition-colors">游戏模式</a>
+                <a href="#about" class="hover:text-accent transition-colors">关于游戏</a>
+            </div>
+            <button class="md:hidden text-2xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="relative z-10 pt-28 pb-16">
+        <!-- 英雄区域 -->
+        <section class="container mx-auto px-4 mb-24">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 animate-fade-in" style="animation-delay: 0.2s">
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight mb-6">
+                        猜数字游戏
+                        <span class="block text-gradient mt-2">挑战你的逻辑思维</span>
+                    </h1>
+                    <p class="text-lg text-white/80 mb-8 max-w-lg">
+                        一款基于C++开发的猜数字游戏，包含多重验证码、多种难度模式和挑战系统，考验你的推理能力和反应速度。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-6 py-3 rounded-lg gradient-bg hover:opacity-90 transition-opacity flex items-center gap-2">
+                            <i class="fa fa-play"></i> 开始游戏
+                        </button>
+                        <button class="px-6 py-3 rounded-lg glass hover:bg-white/20 transition-colors flex items-center gap-2">
+                            <i class="fa fa-info-circle"></i> 了解更多
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="glass p-6 rounded-2xl border border-white/10 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16"></div>
+                        <pre class="text-sm md:text-base text-white/90 font-mono leading-relaxed z-10 relative">
+<span class="text-accent">// 游戏启动示例</span>
+Loading...
+© 2025 George Studio
+Made With C++
+Version:7.6.8
+Score:42
+
+<span class="text-secondary">(CAPTCHA ONE) 请输入17的所有因子之和:</span>
+<span class="text-primary">18</span>
+Right
+
+<span class="text-secondary">请猜一个1-20之间的数字:</span>
+<span class="text-primary">10</span>
+It's Small (1/10)
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能特点 -->
+        <section id="features" class="container mx-auto px-4 mb-24">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-4">游戏特色</h2>
+                <p class="text-white/70 max-w-2xl mx-auto">精心设计的游戏机制，带来丰富的猜数字体验</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 功能卡片1 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-shield text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">三重验证码系统</h3>
+                    <p class="text-white/70">包含因子求和、算术计算和序列识别三种验证方式，确保游戏公平性。</p>
+                </div>
+                
+                <!-- 功能卡片2 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-sliders text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">多种难度模式</h3>
+                    <p class="text-white/70">从简单(1-20)到困难(1-400)，还有随机模式和电脑猜数模式，满足不同需求。</p>
+                </div>
+                
+                <!-- 功能卡片3 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-trophy text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">积分与商店系统</h3>
+                    <p class="text-white/70">通过获胜积累积分，可在商店购买游戏道具，如"冻结时间"和"允许一次错误"。</p>
+                </div>
+                
+                <!-- 功能卡片4 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-clock-o text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">挑战模式</h3>
+                    <p class="text-white/70">设定目标时间，在限定时间内完成猜数挑战，考验你的反应速度和推理能力。</p>
+                </div>
+                
+                <!-- 功能卡片5 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-lock text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">密码保护</h3>
+                    <p class="text-white/70">首次使用需设置密码，保护你的游戏数据和积分信息，确保账号安全。</p>
+                </div>
+                
+                <!-- 功能卡片6 -->
+                <div class="glass p-6 rounded-xl feature-card animate-fade-in" style="animation-delay: 0.6s">
+                    <div class="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                        <i class="fa fa-code text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">开发者模式</h3>
+                    <p class="text-white/70">输入特定指令可进入开发者模式，查看游戏版本信息、调试时间和模式参数。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 游戏模式 -->
+        <section id="modes" class="container mx-auto px-4 mb-24">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-4">游戏模式</h2>
+                <p class="text-white/70 max-w-2xl mx-auto">多种玩法模式，带来不同的游戏体验</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 模式1 -->
+                <div class="glass rounded-xl overflow-hidden flex flex-col md:flex-row feature-card animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="md:w-2/5 bg-primary/20 p-6 flex items-center justify-center">
+                        <i class="fa fa-signal text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-3/5 p-6">
+                        <h3 class="text-xl font-semibold mb-2">难度递增模式</h3>
+                        <p class="text-white/70 mb-4">从简单到困难的渐进式挑战：</p>
+                        <ul class="text-white/80 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 简单：1-20数字范围</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 中等：1-100数字范围</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 困难：1-400数字范围</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 模式2 -->
+                <div class="glass rounded-xl overflow-hidden flex flex-col md:flex-row feature-card animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="md:w-2/5 bg-secondary/20 p-6 flex items-center justify-center">
+                        <i class="fa fa-random text-6xl text-secondary"></i>
+                    </div>
+                    <div class="md:w-3/5 p-6">
+                        <h3 class="text-xl font-semibold mb-2">随机模式</h3>
+                        <p class="text-white/70 mb-4">充满未知的挑战体验：</p>
+                        <ul class="text-white/80 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 1-1200随机数字范围</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 提供范围提示</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 15次猜测机会</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 模式3 -->
+                <div class="glass rounded-xl overflow-hidden flex flex-col md:flex-row feature-card animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="md:w-2/5 bg-accent/20 p-6 flex items-center justify-center">
+                        <i class="fa fa-robot text-6xl text-accent"></i>
+                    </div>
+                    <div class="md:w-3/5 p-6">
+                        <h3 class="text-xl font-semibold mb-2">电脑猜数模式</h3>
+                        <p class="text-white/70 mb-4">角色互换，由电脑来猜你想的数字：</p>
+                        <ul class="text-white/80 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 自定义最大数字范围</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 设定猜测次数限制</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 通过提示引导电脑猜测</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 模式4 -->
+                <div class="glass rounded-xl overflow-hidden flex flex-col md:flex-row feature-card animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="md:w-2/5 bg-primary/20 p-6 flex items-center justify-center">
+                        <i class="fa fa-bolt text-6xl text-primary"></i>
+                    </div>
+                    <div class="md:w-3/5 p-6">
+                        <h3 class="text-xl font-semibold mb-2">挑战模式</h3>
+                        <p class="text-white/70 mb-4">与时间赛跑的极限挑战：</p>
+                        <ul class="text-white/80 space-y-2">
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 自定义目标完成时间</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 可使用"冻结时间"道具</li>
+                            <li class="flex items-center gap-2"><i class="fa fa-check text-accent"></i> 考验速度与准确性</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于游戏 -->
+        <section id="about" class="container mx-auto px-4 mb-16">
+            <div class="glass p-8 rounded-2xl animate-fade-in">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-6">关于这款游戏</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2">
+                        <p class="text-white/80 mb-4">
+                            这款猜数字游戏是由George Studio开发的一款基于C++的控制台应用程序。游戏结合了经典的猜数字玩法与多种创新元素，提供了丰富的游戏体验。
+                        </p>
+                        <p class="text-white/80 mb-4">
+                            游戏采用了多重验证机制，确保每次游戏的公平性，同时加入了积分系统和道具商店，增加了游戏的可玩性和挑战性。无论是休闲玩家还是想锻炼逻辑思维的用户，都能在这款游戏中找到乐趣。
+                        </p>
+                        <p class="text-white/80">
+                            当前版本：7.6.8 | 开发工具：Xcode | AI版本：3.1
+                        </p>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <div class="glass p-6 rounded-xl text-center">
+                            <div class="w-16 h-16 rounded-full gradient-bg mx-auto flex items-center justify-center mb-4">
+                                <i class="fa fa-code text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">开发信息</h3>
+                            <p class="text-white/70">© 2025 George Studio</p>
+                            <p class="text-white/70">使用C++开发</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="relative z-10 glass py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                        <i class="fa fa-gamepad text-white"></i>
+                    </div>
+                    <span class="font-bold">George Studio</span>
+                </div>
+                <div class="text-white/60 text-sm">
+                    © 2025 George Studio. 保留所有权利。
+                </div>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-accent transition-colors"><i class="fa fa-github text-xl"></i></a>
+                    <a href="#" class="hover:text-accent transition-colors"><i class="fa fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-accent transition-colors"><i class="fa fa-envelope text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 滚动动画效果
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.feature-card, section > div.text-center');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 100) {
+                        element.classList.add('animate-fade-in');
+                    }
+                });
+            };
+            
+            // 初始检查
+            animateOnScroll();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // 导航栏滚动效果
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2');
+                    nav.classList.remove('py-4');
+                    nav.classList.add('shadow-lg');
+                } else {
+                    nav.classList.add('py-4');
+                    nav.classList.remove('py-2');
+                    nav.classList.remove('shadow-lg');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
